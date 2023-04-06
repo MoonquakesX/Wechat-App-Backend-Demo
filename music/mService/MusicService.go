@@ -8,7 +8,7 @@ import (
 )
 
 func ListSongs(req *mdDef.ListSongsReq) (*msDef.ListSongsResp, error) {
-	log.Println("not implemented")
+	//log.Println("not implemented")
 	daoResp, err := mDAO.ListSongs(req)
 	if err != nil {
 		log.Println("Dao Error : " + err.Error())

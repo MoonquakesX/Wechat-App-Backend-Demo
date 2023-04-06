@@ -20,7 +20,7 @@ func Hello(context *gin.Context) {
 func ListSongs(context *gin.Context) {
 	log.Println("come into ListSongs function")
 	req := new(mdDef.ListSongsReq)
-	err := context.BindJSON(req)
+	err := context.ShouldBind(req)
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)
@@ -37,7 +37,7 @@ func ListSongs(context *gin.Context) {
 }
 
 func ListComments(context *gin.Context) {
-	log.Println("come into ListComments function")
+	//log.Println("come into ListComments function")
 	req := new(mdDef.ReturnCommentReq)
 	err := context.ShouldBind(req)
 	if err != nil {
@@ -61,16 +61,15 @@ func UploadComment(context *gin.Context) {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)
 	}
-	resp, err := mService.WriteComment(req)
+	err = mService.WriteComment(req)
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)
 	}
-	context.JSON(http.StatusOK, resp)
+	context.JSON(http.StatusOK, nil)
 }
 
 func PlaySong(context *gin.Context) {
-
 	songId := context.Param("id")
 	id, err := strconv.Atoi(songId)
 	if err != nil {

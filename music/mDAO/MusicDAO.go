@@ -10,6 +10,7 @@ import (
 func BatchListSongs(req *mdDef.ListSongsReq) (map[uint]*mdDef.SongBasic, error) {
 	var songs []*mdDef.SongBasic
 	cond := MysqlDB
+	log.Println("ids is", len(req.IDs))
 	if len(req.IDs) > 0 {
 		cond = cond.Where("id in ?", req.IDs)
 	} else {

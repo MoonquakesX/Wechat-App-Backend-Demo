@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestCreateSons(t *testing.T) {
+func TestCreateSongs(t *testing.T) {
 	DBInit()
 	songs := []mdDef.SongBasic{
 		{

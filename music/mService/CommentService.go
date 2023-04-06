@@ -19,3 +19,13 @@ func ListComment(req *mdDef.ReturnCommentReq) (*msDef.ListCommentResp, error) {
 	resp.Length = len(daoResp)
 	return resp, nil
 }
+
+func WriteComment(req *mdDef.UploadCommentReq) error {
+	//log.Println("not implemented")
+	err := mDAO.WriteComment(req)
+	if err != nil {
+		log.Println("Dao Error : " + err.Error())
+		return err
+	}
+	return nil
+}
