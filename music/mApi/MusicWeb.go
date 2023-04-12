@@ -1,8 +1,10 @@
 package mApi
 
 import (
+	"WangYiYunDemo/music/mDAO"
 	"WangYiYunDemo/music/mDAO/mdDef"
 	"WangYiYunDemo/music/mService"
+	"WangYiYunDemo/music/mService/msDef"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -15,7 +17,7 @@ func Hello(context *gin.Context) {
 
 }
 
-// 为了swag识别接口， 通常需要加一些接口描述， 是格式化的， 需要阅读文档
+// ListSongs 为了swag识别接口， 通常需要加一些接口描述， 是格式化的， 需要阅读文档
 // todo: complete swag description
 func ListSongs(context *gin.Context) {
 	log.Println("come into ListSongs function")
@@ -112,4 +114,31 @@ func GetPlayList(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, resp)
+}
+
+func Login(context *gin.Context) {
+	var u mdDef.User
+	// 应该使用 ShouldBindJSON, 以便使用自定义的 handler.SendResponse
+	if err := context.ShouldBind(&u); err != nil {
+		log.Println("login service interface error : " + err.Error())
+		return
+	}
+
+	user, err := mDAO.GetUserByName(u.Name)
+	if err != nil {
+		log.Println("get name interface error : " + err.Error())
+		return
+	}
+
+	if err := user.Compare(u.PassWord); err != nil {
+		log.Println("password error : " + err.Error())
+		return
+	}
+	t, err := mService.Sign(user.ID, user.Name)
+	if err != nil {
+		log.Println("sign error : " + err.Error())
+		return
+	}
+
+	context.JSON(http.StatusOK, msDef.Token{Token: t})
 }
