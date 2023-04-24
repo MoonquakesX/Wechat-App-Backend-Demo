@@ -6,9 +6,9 @@ import (
 )
 
 // GetUserByName 基于名字获取用户
-func GetUserByName(username string) (*mdDef.User, error) {
-	user := &mdDef.User{}
-	result := MysqlDB.Where("username = ?", username).First(user)
+func GetUserByName(username string) (*mdDef.UserBasic, error) {
+	user := &mdDef.UserBasic{}
+	result := MysqlDB.Where("name = ?", username).First(user)
 	if result.Error != nil {
 		log.Println("DB error : " + result.Error.Error())
 	}

@@ -1,28 +1,35 @@
 package mdDef
 
 import (
+	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-type User struct {
+type UserBasic struct {
 	gorm.Model
-	Name     string `json:"name" gorm:"not null; column:name"`
-	PassWord string `json:"passWord" gorm:"not null; column:password"`
+	Name     string `json:"name" gorm:"not null; column:name" validate:"min=1,max=32"`
+	PassWord string `json:"passWord" gorm:"not null; column:password" validate:"min=5,max=128"`
 }
 
 // Compare 比较密码是否相同, 前提是 UserModel.Password 是已经哈希过的
-func (u *User) Compare(pwd string) error {
+func (u *UserBasic) Compare(pwd string) error {
 	return Compare(u.PassWord, pwd)
 }
 
 // Encrypt 加密用户密码
-func (u *User) Encrypt() error {
+func (u *UserBasic) Encrypt() error {
 	password, err := Encrypt(u.PassWord)
 	if err == nil {
 		u.PassWord = password
 	}
 	return err
+}
+
+// Validate 验证字段
+func (u *UserBasic) Validate() error {
+	validate := validator.New()
+	return validate.Struct(u)
 }
 
 // Encrypt 加密字符串

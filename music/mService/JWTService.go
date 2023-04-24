@@ -27,7 +27,7 @@ func Sign(id uint, username string) (string, error) {
 			Subject:        "login",
 			Audience:       jwt.Audience{},
 			ExpirationTime: jwt.NumericDate(now.Add(7 * 24 * time.Hour)),
-			NotBefore:      jwt.NumericDate(now.Add(30 * time.Minute)),
+			NotBefore:      jwt.NumericDate(now.Add(30 * time.Second)),
 			IssuedAt:       jwt.NumericDate(now),
 			JWTID:          uuid.NewV4().String(),
 		},

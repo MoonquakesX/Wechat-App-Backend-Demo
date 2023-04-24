@@ -20,6 +20,7 @@ func AuthJWT() gin.HandlerFunc {
 		}
 		t := headerList[0]
 		content := headerList[1]
+
 		if t != "Bearer" {
 			err := errors.New("认证类型错误, 当前只支持 Bearer")
 			log.Println("head error" + err.Error())

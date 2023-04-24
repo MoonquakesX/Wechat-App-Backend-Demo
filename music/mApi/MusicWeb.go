@@ -117,20 +117,20 @@ func GetPlayList(context *gin.Context) {
 }
 
 func Login(context *gin.Context) {
-	var u mdDef.User
+	var u msDef.UserReq
 	// 应该使用 ShouldBindJSON, 以便使用自定义的 handler.SendResponse
-	if err := context.ShouldBind(&u); err != nil {
+	if err := context.ShouldBindJSON(&u); err != nil {
 		log.Println("login service interface error : " + err.Error())
 		return
 	}
 
-	user, err := mDAO.GetUserByName(u.Name)
+	user, err := mDAO.GetUserByName(u.Username)
 	if err != nil {
 		log.Println("get name interface error : " + err.Error())
 		return
 	}
 
-	if err := user.Compare(u.PassWord); err != nil {
+	if err := user.Compare(u.Password); err != nil {
 		log.Println("password error : " + err.Error())
 		return
 	}

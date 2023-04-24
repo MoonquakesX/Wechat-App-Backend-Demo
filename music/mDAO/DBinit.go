@@ -22,7 +22,7 @@ func DBInit() {
 	if err != nil {
 		log.Println("initialize gorm DB error : " + err.Error())
 	} else {
-		MysqlDB.AutoMigrate(&mdDef.SongBasic{}, &mdDef.CommentBasic{}) // 会自动更新表的所有信息
+		MysqlDB.AutoMigrate(&mdDef.SongBasic{}, &mdDef.CommentBasic{}, &mdDef.UserBasic{}) // 会自动更新表的所有信息
 	}
 
 }
